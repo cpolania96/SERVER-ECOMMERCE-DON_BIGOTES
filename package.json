@@ -6,8 +6,6 @@
   "type": "module",
   "scripts": {
     "start": "node src/app.js",
-    "build-css": "node-sass --include-path scss src/scss/main.scss public/css/styles.css",
-    "watch-css": "nodemon -e scss -x \"npm run build-css\"",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "server-dev": "nodemon src/app.js"

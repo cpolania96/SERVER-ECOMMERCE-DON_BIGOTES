@@ -3,9 +3,6 @@ import products from '../controllers/controller-products.js';
 const router = express.Router()
 
 // REST
-router.get('/api/index', async (req, res) => {
-    res.send('/')
-})
 router.get('/api/productos/getAll', products.getAll)
 router.get('/api/productos/:id', products.getbyId)
 router.get('/api/productos/productRandom', products.productRandom)
