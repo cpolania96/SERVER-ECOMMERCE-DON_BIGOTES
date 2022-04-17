@@ -2,7 +2,7 @@ import express from 'express'
 import router from './routes/index.routes.js'
 // LISTEN SERVER
 const app = express()
-const PORT = 8080
+const PORT = process.env.PORT || 8080
 const server = app.listen(PORT, () => {
     console.log(`Escuchando en el puerto ${PORT}`);
 })
