@@ -18,9 +18,13 @@ products.getAll = async (req, res) => {
 products.save = async (req, res) => {
     await products.save(
         {
-            title: req.body.nombre,
-            price: req.body.precio,
-            thumbnail: req.body.urlimg
+            title: req.body.product_name,
+            category: req.body.category,
+            thumbnail: req.body.thumbnail,
+            weight: req.body.product_weight,
+            stock: req.body.product_stock,
+            price: req.body.price,
+            thumbnail: req.body.thumbnail
         }
     )
 }
