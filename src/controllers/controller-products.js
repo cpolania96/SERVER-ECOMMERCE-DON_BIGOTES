@@ -16,7 +16,7 @@ products.getAll = async (req, res) => {
     res.json(await productsData.getAll())
 }
 products.save = async (req, res) => {
-    await products.save(
+    await productsData.save(
         {
             title: req.body.product_name,
             category: req.body.category,
