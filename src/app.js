@@ -19,11 +19,20 @@ app.use('/api/productos', routerProductos)
 app.use(router)
 
 // ----------------------------------------
-
 routerInicio.use(express.json())
 routerInicio.use(express.urlencoded({ extended: true }))
 routerProductos.use(express.json())
 routerProductos.use(express.urlencoded({ extended: true }))
+
+// _________________________________________________
+
+app.use((req, res, next) => {
+    res.set("Access-Control-Allow-Credentials", "true");
+    res.set("Access-Control-Allow-Origin", "http://tu_dominio.com");
+    res.set("Access-Control-Allow-Headers", "Content-Type");
+    res.set("Access-Control-Allow-Methods", "OPTIONS,GET,PUT,POST,DELETE");
+    next();
+});
 
 // ARCHIVOS ESTÁTICOS
 app.use(express.static('public'))
