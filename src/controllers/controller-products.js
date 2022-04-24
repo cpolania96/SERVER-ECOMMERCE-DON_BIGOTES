@@ -16,15 +16,15 @@ products.getAll = async (req, res) => {
     res.json(await productsData.getAll())
 }
 products.save = async (req, res) => {
-    await productsData.save(
+    await products.save(
         {
             title: req.body.product_name,
-            category: req.body.category,
-            thumbnail: req.body.thumbnail,
+            category: req.body.product_category,
+            thumbnail: req.body.product_thumbnail,
             weight: req.body.product_weight,
             stock: req.body.product_stock,
-            price: req.body.price,
-            thumbnail: req.body.thumbnail
+            price: req.body.product_price,
+            thumbnail: req.body.product_thumbnail
         }
     )
 }
