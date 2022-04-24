@@ -24,7 +24,7 @@ products.save = async (req, res) => {
             weight: req.body.product_weight,
             stock: req.body.product_stock,
             price: req.body.product_price,
-            thumbnail: req.body.product_thumbnail
+            description: req.body.product_description
         }
     )
 }
