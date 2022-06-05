@@ -1,14 +1,25 @@
 import express from 'express'
 import router from './routes/index.routes.js'
+import cors from 'cors'
+import initDB from '../db/databaseConfig.js'
+
 // LISTEN SERVER
 const app = express()
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 9090
 const server = app.listen(PORT, () => {
     console.log(`Escuchando en el puerto ${PORT}`);
 })
-
+// InitDB
+initDB()
+// CORS
+app.use(cors())
 // MANEJO DE ERRORES EN SERVER
 server.on('error', error => console.log(`Este es el error ${error}`))
+
+// MongoDB
+
+
+
 
 // Rutas
 const routerProductos = express.Router()
@@ -26,13 +37,6 @@ routerProductos.use(express.urlencoded({ extended: true }))
 
 // _________________________________________________
 
-app.use((req, res, next) => {
-    res.set("Access-Control-Allow-Credentials", "true");
-    res.set("Access-Control-Allow-Origin", "http://tu_dominio.com");
-    res.set("Access-Control-Allow-Headers", "Content-Type");
-    res.set("Access-Control-Allow-Methods", "OPTIONS,GET,PUT,POST,DELETE");
-    next();
-});
 
 // ARCHIVOS ESTÁTICOS
 app.use(express.static('public'))

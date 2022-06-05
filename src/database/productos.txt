@@ -1,10 +1,1 @@
-[{
-    "title": ,
-    "category": "Esta es la categoria",
-    "thumbnail": "hhtps//photo.com",
-    "weight": 50,
-    "stock": 250,
-    "price": 38000,
-    "description": "Esta es la descripción"
-    "id": 1
-}]
+[]

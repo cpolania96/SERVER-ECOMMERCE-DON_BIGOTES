@@ -48,9 +48,9 @@ class AccessData {
     async deleteById(id) {
         try {
             let contenido = await this.readFile()
-            const borrarPorId = contenido.filter(cont => cont.id !== id)
+            const borrarPorId = contenido.filter(cont => cont.id != id)
             await fs.promises.writeFile(this.archivo, JSON.stringify(borrarPorId))
-            console.log("El objeto fue borrado");
+            console.log(`El objeto ${cont.id} fue borrado`);
         } catch (error) {
             error
         }
@@ -71,6 +71,16 @@ class AccessData {
         } catch (error) {
             error
         }
+    }
+    async getByCategory(categoryID) {
+        try {
+            let contenido = await this.readFile()
+            let contenidoFiltrado = contenido.find(category => category === categoryID)
+            return contenidoFiltrado
+        } catch (error) {
+            error
+        }
+
     }
 }
 
