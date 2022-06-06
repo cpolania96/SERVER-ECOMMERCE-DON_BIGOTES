@@ -10,7 +10,6 @@ controllerProducts.use(urlencoded({ extended: true }))
 const products = {}
 
 products.getAll = async (req, res) => {
-    console.log('Peticion OK');
     Product.find({}, (error, docs) => {
         if (!error) {
             console.log('Petición para obtener todos los datos de productos')
