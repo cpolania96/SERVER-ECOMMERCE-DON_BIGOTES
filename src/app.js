@@ -1,7 +1,7 @@
 import express from 'express'
 import router from './routes/index.routes.js'
 import cors from 'cors'
-import initDB from '../db/databaseConfig.js'
+import connect from '../db/databaseConfig.js'
 
 // LISTEN SERVER
 const app = express()
@@ -9,17 +9,14 @@ const PORT = process.env.PORT || 9090
 const server = app.listen(PORT, () => {
     console.log(`Escuchando en el puerto ${PORT}`);
 })
-// InitDB
-initDB()
+
 // CORS
 app.use(cors())
 // MANEJO DE ERRORES EN SERVER
 server.on('error', error => console.log(`Este es el error ${error}`))
 
-// MongoDB
-
-
-
+// InitDB
+connect()
 
 // Rutas
 const routerProductos = express.Router()

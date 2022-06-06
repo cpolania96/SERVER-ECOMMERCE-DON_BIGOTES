@@ -1,4 +1,3 @@
-import AccessData from './controller-access-data.js'
 import express from 'express'
 import { urlencoded } from 'express'
 import Product from '../../db/models/products.js'
@@ -8,13 +7,10 @@ const controllerProducts = express()
 controllerProducts.use(express.json())
 controllerProducts.use(urlencoded({ extended: true }))
 
-const productsData = new AccessData('./src/database/productos.txt')
 const products = {}
 
-// products.getbyId() = async (req, res) => {
-
-// }
 products.getAll = async (req, res) => {
+    console.log('Peticion OK');
     Product.find({}, (error, docs) => {
         if (!error) {
             console.log('Petición para obtener todos los datos de productos')
