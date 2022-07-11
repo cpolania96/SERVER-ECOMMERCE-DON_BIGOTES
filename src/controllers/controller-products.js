@@ -16,6 +16,7 @@ products.getAll = async (req, res) => {
             res.send({
                 docs
             })
+            console.log(docs);
         } else {
             console.log(error);
         }
