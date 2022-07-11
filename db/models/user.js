@@ -26,12 +26,13 @@ const userSchema = mongoose.Schema({
 userSchema.methods.matchPassword = async (enteredPassword) => {
     return await bcrypt.compare(enteredPassword, this.password)
 }
-// BLOQUE DONDE ESTA EL PROBLEMA
-userSchema.pre('save', async (next) => {
-    if (!this.isModified('password')) return next()
-    password = await bcrypt.hash(password, bcrypt.genSalt(10))
+
+userSchema.pre('save', async function (next) {
+    if(!this.isModified) next()
+    const salt = await bcrypt.genSalt(10)
+    this.password = await bcrypt.hash(this.password, salt)
 })
-// _______________________________
+
 
 
 const User = mongoose.model('User', userSchema)
