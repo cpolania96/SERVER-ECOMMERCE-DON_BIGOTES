@@ -3,6 +3,7 @@ import router from './routes/index.routes.js'
 import cors from 'cors'
 import connect from '../db/databaseConfig.js'
 // import { Server } from 'socket.io'
+import error from '../middlewares/errorMiddleware.js'
 
 // LISTEN SERVER
 const app = express()
@@ -19,6 +20,9 @@ const server = app.listen(PORT, () => {
 //     socket.emit('Mi mensaje', 'Este es mi mensaje desde el servidor ')
 // })
 
+// Middlewares
+// app.use(error.errorHandler)
+// app.use(error.notFound)
 
 // CORS
 app.use(cors())
@@ -39,6 +43,7 @@ app.use('/api/user', routerUser)
 app.use(router)
 
 // ----------------------------------------
+
 routerInicio.use(express.json())
 routerInicio.use(express.urlencoded({ extended: true }))
 routerProductos.use(express.json())

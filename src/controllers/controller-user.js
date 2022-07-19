@@ -2,51 +2,60 @@ import User from "../../db/models/user.js"
 import generateToken from "../../db/generateToken.js"
 import "dotenv"
 
-const user = {} 
+const user = {}
 
 user.registrerUser = async (req, res) => {
-    const { name, email, password, pic } = await req.body
+    const { name, email, password, pic } = req.body
+
+    const userExist = await User.findOne({ email })
+    if (userExist) {
+        try {
+            res.status(400)
+            res.send({
+                message: "El correo ya esta registrado"
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    } else {
+        const user = await User.create({
+            name,
+            email,
+            password,
+            pic
+        })
+        if (user) {
+            res.send({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                pic: user.pic,
+                token: generateToken(user._id),
+                message: 'Cuenta creada correctamente'
+            })
+        } else {
+            res.status(400)
+            throw new Error('Failed to create the user')
+        }
+    }
     
-    if(!name || !email || !password) {
-        res.status(400)
-        throw new Error("Por favor ingrese todos los campos")
-    }
-    const userExist = await User.findOne({email})
-    if(userExist) {
-        res.status(400)
-        throw new Error("El correo ya esta registrado")
-    }
-    const user = await User.create({
-        name,
-        email,
-        password,
-        pic
-    })
-    if(user) {
+}
+user.authUser = async (req, res) => {
+    const { email, password } = req.body
+    const user = await User.findOne({ email })
+    if (user && (await user.matchPassword(password))) {
+        console.log('Request para login');
         res.send({
             _id: user._id,
             name: user.name,
             email: user.email,
-            pic: user.pic,
             token: generateToken(user._id)
+
         })
     } else {
-        res.status(400)
-        throw new Error('Failed to create the user')
+        res.status(500).send('Credenciales inválidas')
     }
 }
-user.authUser = async (req, res) => {
-    const {email, password } = req.body
-    const user = await User.findOne({email})
-    if(user && (await User.matchPassword(password))) {
-        res.send({
-            _id: user._id,
-            name: user.name,
-            email: user.email
-        })
-    }
-
- }
 
 export default user
 
