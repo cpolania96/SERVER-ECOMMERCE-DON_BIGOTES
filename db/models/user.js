@@ -19,6 +19,9 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true,
         default: "https://cloudinary.com/console/c-8d8767bba1e2f9d99db3329c7917e8/media_library/folders/home/asset/ea82ecf225e1ea3680745e828d14994c/manage/analysis"
+    },
+    roles: {
+        type: Array
     }
 }, {
     timestamp: true

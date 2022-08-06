@@ -1,13 +1,16 @@
 import User from "../../db/models/user.js"
 import generateToken from "../../db/generateToken.js"
 import "dotenv"
+import role from "../../db/models/role.js"
+
 
 const user = {}
 
 user.registrerUser = async (req, res) => {
-    const { name, email, password, pic } = req.body
+    const { name, email, password, pic, roles } = req.body
 
     const userExist = await User.findOne({ email })
+
     if (userExist) {
         try {
             res.status(400)
@@ -25,11 +28,15 @@ user.registrerUser = async (req, res) => {
             pic
         })
         if (user) {
+            if (roles) {
+                const foundRoles = await role.find({name: {$in: roles}})
+                user.roles = foundRoles.map(role => role._id)
+            } else {
+                const roleFind = await role.findOne({name: 'user'})
+                user.roles = [roleFind._id]
+            }
+            console.log(user);
             res.send({
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                pic: user.pic,
                 token: generateToken(user._id),
                 message: 'Cuenta creada correctamente'
             })
@@ -38,20 +45,14 @@ user.registrerUser = async (req, res) => {
             throw new Error('Failed to create the user')
         }
     }
-    
+
 }
 user.authUser = async (req, res) => {
     const { email, password } = req.body
     const user = await User.findOne({ email })
     if (user && (await user.matchPassword(password))) {
-        console.log('Request para login');
-        res.send({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            token: generateToken(user._id)
-
-        })
+        const token = generateToken(user._id)
+        res.status(200).send({ token })
     } else {
         res.status(500).send('Credenciales inválidas')
     }

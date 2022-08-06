@@ -18,5 +18,7 @@ export default async function connect() {
     }
 }
 
+// MON GO SESSIONS
 
+const SESSION_URL = 'mongodb://localhost:27017/Auth'
 

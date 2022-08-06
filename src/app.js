@@ -3,7 +3,9 @@ import router from './routes/index.routes.js'
 import cors from 'cors'
 import connect from '../db/databaseConfig.js'
 // import { Server } from 'socket.io'
-import error from '../middlewares/errorMiddleware.js'
+import cookieParser from 'cookie-parser'
+import session from 'express-session'
+import { createRoles } from './libs/initial-setup.js'
 
 // LISTEN SERVER
 const app = express()
@@ -11,26 +13,36 @@ const PORT = process.env.PORT || 9090
 const server = app.listen(PORT, () => {
     console.log(`Escuchando en el puerto ${PORT}`);
 })
-// // IO Server
-// const IOServer = Server.IOServer
-// const io = new IOServer(server)
 
-// io.on('connection', (socket) => {
-//     console.log('Usuario conectado')
-//     socket.emit('Mi mensaje', 'Este es mi mensaje desde el servidor ')
-// })
+// Sesiones_______________________
+app.use(session({
+    secret: 'secreto',
+    resave: true,
+    saveUninitialized: true
+}))
+//________________________________
 
-// Middlewares
-// app.use(error.errorHandler)
-// app.use(error.notFound)
-
-// CORS
+// CORS___________________________
 app.use(cors())
+//________________________________
+
 // MANEJO DE ERRORES EN SERVER
 server.on('error', error => console.log(`Este es el error ${error}`))
 
+// Cookies
+app.use(cookieParser('MY SECRET'))
+app.get('/api/isSigned', (req, res) => {
+    console.log(`Request para obtener cookie`);
+    res.cookie('signed', 'cookie', { signed: true })
+    res.send('Está logeado')
+})
+
 // InitDB
 connect()
+
+// Roles__________________________
+createRoles()
+//________________________________
 
 // Rutas
 const routerProductos = express.Router()
@@ -60,3 +72,7 @@ app.use(express.static('public'))
 //EJS CONFIG
 app.set('views', './views')
 app.set('view engine', 'ejs')
+
+
+
+
