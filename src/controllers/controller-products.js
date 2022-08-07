@@ -22,7 +22,7 @@ products.getAll = async (req, res) => {
         }
     })
 }
-products.save = async (req, res) => {
+products.addProduct = async (req, res) => {
     const product = new Product()
 
     product.title = req.body.product_title
@@ -34,7 +34,7 @@ products.save = async (req, res) => {
     product.weight = req.body.product_weight
     product.description = req.body.product_description
 
-    product.save((err, productStored) => {
+    product.addProduct((err, productStored) => {
         if (err) {
             return res.status(500).send({ message: `Error al guardar en la base de datos: ${err}` })
         }

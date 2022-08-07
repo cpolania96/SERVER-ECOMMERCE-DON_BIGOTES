@@ -1,15 +1,15 @@
 import User from "../../db/models/user.js"
 import generateToken from "../../db/generateToken.js"
 import "dotenv"
-import role from "../../db/models/role.js"
+import Role from "../../db/models/role.js"
 
 
 const user = {}
 
 user.registrerUser = async (req, res) => {
-    const { name, email, password, pic, roles } = req.body
+    const { name, userName, password, pic, roles } = req.body
 
-    const userExist = await User.findOne({ email })
+    const userExist = await User.findOne({ user })
 
     if (userExist) {
         try {
@@ -21,21 +21,21 @@ user.registrerUser = async (req, res) => {
             console.log(error);
         }
     } else {
-        const user = await User.create({
+        const userModel = await User.create({
             name,
-            email,
+            userName,
             password,
-            pic
+            pic,
+            roles
         })
-        if (user) {
+        if (userModel) {
             if (roles) {
-                const foundRoles = await role.find({name: {$in: roles}})
+                const foundRoles = await Role.find({name: {$in: roles}})
                 user.roles = foundRoles.map(role => role._id)
             } else {
-                const roleFind = await role.findOne({name: 'user'})
+                const roleFind = await Role.findOne({name: 'user'})
                 user.roles = [roleFind._id]
             }
-            console.log(user);
             res.send({
                 token: generateToken(user._id),
                 message: 'Cuenta creada correctamente'
@@ -48,10 +48,10 @@ user.registrerUser = async (req, res) => {
 
 }
 user.authUser = async (req, res) => {
-    const { email, password } = req.body
-    const user = await User.findOne({ email })
-    if (user && (await user.matchPassword(password))) {
-        const token = generateToken(user._id)
+    const { userName, password } = req.body
+    const userFind = await User.findOne({ userName })
+    if (userFind && (await userFind.matchPassword(password))) {
+        const token = generateToken(userFind._id)
         res.status(200).send({ token })
     } else {
         res.status(500).send('Credenciales inválidas')
