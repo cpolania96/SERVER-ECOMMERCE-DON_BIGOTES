@@ -11,7 +11,7 @@ const productSchema = new Schema({
     thumbnail: {
         type: String
     },
-    UM: {
+    umed: {
         type: String
     },
     stock: {

@@ -42,7 +42,6 @@ connect()
 
 // Roles__________________________
 createRoles()
-//________________________________
 
 // Rutas
 const routerProductos = express.Router()
@@ -50,7 +49,7 @@ const routerInicio = express.Router()
 const routerUser = express.Router()
 
 app.use('/api/index', routerInicio)
-app.use('/api/productos', routerProductos)
+app.use('/api/products', routerProductos)
 app.use('/api/user', routerUser)
 app.use(router)
 
